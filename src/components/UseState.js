@@ -26,7 +26,6 @@ function TaskManager() {
           value={taskInput}
           onChange={(e) => setTaskInput(e.target.value)}
           placeholder="Enter a task"
-          className=""
         />
         <button type="submit">Add Task</button>
       </form>
