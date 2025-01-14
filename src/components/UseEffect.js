@@ -5,21 +5,23 @@ function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
-  // Load tasks from localStorage when the component mounts
+  // First useEffect: Runs once when component mounts
+  // Retrieves any previously saved tasks from browser's localStorage
   useEffect(() => {
     const savedTasks = JSON.parse(localStorage.getItem("tasks"));
     if (savedTasks) {
       setTasks(savedTasks);
     }
-  }, []);
+  }, []); // Empty dependency array means this runs only once on mount
 
-  // Save tasks to localStorage whenever the tasks array changes
+  // Second useEffect: Runs whenever tasks array changes
+  // Persists the current tasks to localStorage for data persistence across page reloads
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  }, [tasks]); // Dependency array with tasks means this runs whenever "tasks" changes
 
   const addTask = (e) => {
-    e.preventDefault(); // Prevent form submission from refreshing the page
+    e.preventDefault();
     if (taskInput) {
       setTasks([...tasks, taskInput]);
       setTaskInput("");

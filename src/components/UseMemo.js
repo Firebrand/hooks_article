@@ -5,11 +5,13 @@ function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
+  // Handles adding new tasks to the list
+  // Prevents empty tasks from being added
   const addTask = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents form submission from refreshing the page
     if (taskInput) {
-      setTasks([...tasks, taskInput]);
-      setTaskInput("");
+      setTasks([...tasks, taskInput]); // Creates new array with existing tasks plus new task
+      setTaskInput(""); // Clears the input field after adding
     }
   };
 
@@ -17,7 +19,10 @@ function TaskManager() {
     setTasks(tasks.filter((_, i) => i !== index));
   };
 
-  // Only run tasks.map when the tasks value changes (otherwise it will run every time a key is pressed in the textfield too)
+  // useMemo optimization:
+  // Memoizes (caches) the task list rendering to prevent unnecessary re-renders
+  // Only recalculates when the 'tasks' array changes, not on every component re-render
+  // (otherwise it would run every time a key is pressed in the textfield too)
   const taskList = useMemo(() => {
     console.log("Task list recalculated");
     return tasks.map((task, index) => (
@@ -25,8 +30,7 @@ function TaskManager() {
         {task} <button onClick={() => removeTask(index)}>Remove</button>
       </li>
     ));
-  }, [tasks]);
-
+  }, [tasks]); // Dependency array - only recalculate when 'tasks' changes
 
   return (
     <div className="alx-component">

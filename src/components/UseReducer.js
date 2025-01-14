@@ -1,20 +1,25 @@
 import React, { useReducer } from "react";
 import Header from "./misc/Header";
 
+// Reducer function that handles all state updates for the task manager
+// Takes current state and an action object, returns new state
 function taskReducer(state, action) {
   switch (action.type) {
     case "ADD_TASK":
+      // Creates new state with task added to array and clears input
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
         taskInput: "",
       };
     case "REMOVE_TASK":
+      // Filters out task at specified index
       return {
         ...state,
         tasks: state.tasks.filter((_, index) => index !== action.payload),
       };
     case "SET_INPUT":
+      // Updates the input field value
       return {
         ...state,
         taskInput: action.payload,
@@ -24,16 +29,21 @@ function taskReducer(state, action) {
   }
 }
 
+// Initial state structure for the task manager
 const initialState = {
-  tasks: [],
-  taskInput: "",
+  tasks: [], // Array to store all tasks
+  taskInput: "", // Tracks current input field value
 };
 
 function TaskManager() {
+  // useReducer hook sets up state management
+  // state: current state object
+  // dispatch: function to send actions to reducer
   const [state, dispatch] = useReducer(taskReducer, initialState);
 
+  // Event handlers that dispatch actions to the reducer
   const addTask = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevents form submission from refreshing page
     if (state.taskInput) {
       dispatch({ type: "ADD_TASK", payload: state.taskInput });
     }

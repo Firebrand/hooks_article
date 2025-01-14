@@ -5,15 +5,19 @@ function TaskManager() {
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState("");
 
-  // The add function will be recreated every time taskInput changes. This is because if we left it [], it would be created only on component mount and the value of taskInput would always be what it was at that time of component mount (empty)
+  // The add function will be recreated every time taskInput changes.
+  // This is because if we left it [], it would be created only on component mount and the value of taskInput would always be what it was at that time of component mount (empty)
   // however, it will not be recreated is a task is removed
-  const addTask = useCallback((e) => {
-    e.preventDefault(); // Prevent form submission refresh
-    if (taskInput) {
-      setTasks((prevTasks) => [...prevTasks, taskInput]);
-      setTaskInput("");
-    }
-  }, [taskInput]);
+  const addTask = useCallback(
+    (e) => {
+      e.preventDefault(); // Prevent form submission refresh
+      if (taskInput) {
+        setTasks((prevTasks) => [...prevTasks, taskInput]);
+        setTaskInput("");
+      }
+    },
+    [taskInput]
+  );
 
   // The remove function will be create just once - during component mount
   const removeTask = useCallback((index) => {
